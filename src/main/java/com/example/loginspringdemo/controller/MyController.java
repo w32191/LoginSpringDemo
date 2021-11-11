@@ -1,21 +1,25 @@
 package com.example.loginspringdemo.controller;
 
-import com.example.loginspringdemo.javabean.Printer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MyController {
 
-  @Autowired
-  private Printer printer;
+  @RequestMapping("/test01")
+  public String test01() {
 
-  @RequestMapping("/test")
-  public String test() {
-    printer.print("Hello World");
-    return "World";
+    throw new RuntimeException("test01 Error");
+
+  }
+
+  @RequestMapping("/test02")
+  public String test02() {
+    throw new IllegalArgumentException("test02 Error");
   }
 
 }
