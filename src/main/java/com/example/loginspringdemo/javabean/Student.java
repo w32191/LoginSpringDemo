@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Student {
 
-  @NotBlank
-  String name;
-
-  @NotNull
   Integer id;
+  String name;
 
   public Integer getId() {
     return id;

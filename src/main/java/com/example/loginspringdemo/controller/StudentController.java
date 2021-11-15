@@ -1,42 +1,54 @@
 package com.example.loginspringdemo.controller;
 
 import com.example.loginspringdemo.javabean.Student;
-import javax.validation.Valid;
+import com.example.loginspringdemo.service.StudentService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StudentController {
 
+  @Autowired
+  private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+  @Autowired
+  private StudentService studentService;
 
-  //@RequestMapping(value = "/create", method = RequestMethod.POST)
-  @PostMapping("/student")
-  public String createStudent(@RequestBody @Valid Student student) {
+  //insert Student Data
+  @PostMapping("/students")
+  public String insert(@RequestBody Student student) {
 
-    return "執行ＳＱＬ insert into";
+    return studentService.insertStudent(student);
   }
 
-  @GetMapping("/student/{studentId}")
-  public String readStudent(@PathVariable Integer studentId) {
+  //整批data insert
+  @PostMapping("/students/batch")
+  public String insertList(@RequestBody List<Student> studentList) {
 
-    return "SQL Select from ";
+    return studentService.insertList(studentList);
   }
 
-  @PutMapping("/student/{studentId}")
-  public String updateStudent(@PathVariable Integer studentId,
-      @RequestBody Student student) {
-
-    return "SQL update";
+  //delete
+  @DeleteMapping("/students/{studentId}")
+  public String delete(@PathVariable Integer studentId) {
+    return studentService.deleteById(studentId);
   }
 
-  @DeleteMapping("/student/{studentId}")
-  public String deleteStudent(@PathVariable Integer studentId) {
+  //select
+  @GetMapping("/students/select")
+  public List<Student> select() {
+    return studentService.select();
+  }
 
-    return "SQL delete";
+  //用ID查student
+  @GetMapping("/students/{studentId}")
+  public Student selectStudent(@PathVariable Integer studentId) {
+    return studentService.getById(studentId);
   }
 }
